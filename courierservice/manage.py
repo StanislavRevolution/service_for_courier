@@ -6,7 +6,7 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'service_for_courier.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'courierservice.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

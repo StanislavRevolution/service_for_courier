@@ -1,5 +1,5 @@
 """
-ASGI config for service_for_courier project.
+ASGI config for courierservice project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'service_for_courier.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'courierservice.settings')
 
 application = get_asgi_application()
