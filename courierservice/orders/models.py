@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 
+from users.models import CourierUser
 
 User = get_user_model()
 
@@ -38,6 +39,16 @@ class Product(models.Model):
 
 
 class Order(models.Model):
+    WAITING_SUBMIT = 'WS'
+    GOING_TO = 'GT'
+    ON_THE_WAY = 'OTW'
+    DELIVERED = 'DV'
+    STATUS_CHOICES = (
+        (WAITING_SUBMIT, 'Waiting submit'),
+        (GOING_TO, 'going to'),
+        (ON_THE_WAY, 'On the way'),
+        (DELIVERED, 'delivered'),
+    )
     products = models.ManyToManyField(
         Product,
         through='ProductAmount',
@@ -54,7 +65,7 @@ class Order(models.Model):
         verbose_name='Заказчик'
     )
     courier = models.ForeignKey(
-        User,
+        CourierUser,
         on_delete=models.SET_NULL,
         blank=True,
         null=True
@@ -62,6 +73,17 @@ class Order(models.Model):
     pub_date = models.DateTimeField(
         'Время публикации',
         auto_now_add=True
+    )
+    status = models.CharField(
+        'Статус заказа',
+        max_length=40,
+        choices=STATUS_CHOICES,
+        default=WAITING_SUBMIT
+    )
+    comment = models.TextField(
+        'Обращение к курьеру',
+        max_length=2000,
+        blank=True
     )
 
 
@@ -96,3 +118,58 @@ class ProductAmount(models.Model):
         return f'{self.product.title}: {self.amount}'
 
 
+class RatingStar(models.Model):
+    """Звезда рейтинга"""
+    value = models.PositiveSmallIntegerField("Значение", default=0)
+
+    def __str__(self):
+        return f'{self.value}'
+
+    class Meta:
+        verbose_name = "Звезда рейтинга"
+        verbose_name_plural = "Звезды рейтинга"
+
+
+class Rating (models.Model):
+    """Рейтинг"""
+    star = models.ForeignKey(
+        RatingStar,
+        verbose_name="звезда",
+        on_delete=models.CASCADE
+    )
+    courier = models.ForeignKey(
+        CourierUser,
+        verbose_name='Курьер',
+        on_delete=models.CASCADE,
+        related_name='rating_of_courier'
+    )
+
+    def __str__(self):
+        return f'{self.star} - {self.courier.user.username}'
+
+    class Meta:
+        verbose_name = "Рейтинг"
+        verbose_name_plural = "Рейтинги"
+
+
+class Reviews(models.Model):
+    """Отзывы"""
+    text = models.TextField("Отзыв", max_length=5000)
+    courier = models.ForeignKey(
+        CourierUser,
+        verbose_name="Родитель",
+        on_delete=models.SET_NULL
+    )
+    user = models.ForeignKey(
+        User,
+        verbose_name='Пользователь',
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return f'Отзывы на: {self.courier.user.username}'
+
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
+        default_related_name = 'reviews_of_courier'

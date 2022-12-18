@@ -3,6 +3,8 @@ from django.db import models
 
 from orders.models import Order
 
+from phonenumber_field.modelfields import PhoneNumberField
+
 
 class CustomUser(AbstractUser):
     username = models.CharField(
@@ -23,6 +25,11 @@ class CustomUser(AbstractUser):
     is_courier = models.BooleanField(default=False)
     is_client = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    phoneNumber = PhoneNumberField(
+        unique=True,
+        null=False,
+        blank=False
+    )
 
     class Meta:
         ordering = ('username',)
@@ -49,4 +56,5 @@ class CourierUser(models.Model):
         upload_to='photo_of_couriers/',
         verbose_name='Изображения'
     )
+
 
