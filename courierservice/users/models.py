@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from orders.models import Order
+
 
 class CustomUser(AbstractUser):
     username = models.CharField(
