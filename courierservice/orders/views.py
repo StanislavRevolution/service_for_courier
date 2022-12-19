@@ -1,13 +1,14 @@
 from django.core.mail import send_mail, BadHeaderError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.http import require_http_methods
+
 from .forms import CourierForm
 
 
+@require_http_methods(["GET", "POST"])
 def contact_view(request):
-    if request.method == 'GET':
-        form = CourierForm()
-    elif request.method == 'POST':
+    if request.method == 'POST':
         form = CourierForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
@@ -26,8 +27,7 @@ def contact_view(request):
             except BadHeaderError:
                 return HttpResponse('Ошибка в теме письма.')
             return redirect('success')
-    else:
-        return HttpResponse('Неверный запрос.')
+    form = CourierForm()
     return render(request, "", {'form': form})
 
 

@@ -47,6 +47,7 @@ class CourierUser(models.Model):
         primary_key=True,
         verbose_name='Пользователь'
     )
+
     orders = models.ManyToManyField(
         Order,
         related_name='orders_of_current_courier',
