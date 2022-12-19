@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import CustomUser, CourierUser
+from .models import CustomUser
 
 User = get_user_model()
 

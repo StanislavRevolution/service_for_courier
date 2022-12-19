@@ -64,12 +64,12 @@ class Order(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Заказчик'
     )
-    courier = models.ForeignKey(
-        CourierUser,
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True
-    )
+    # courier = models.ForeignKey(
+    #     CourierUser,
+    #     on_delete=models.SET_NULL,
+    #     blank=True,
+    #     null=True
+    # )
     pub_date = models.DateTimeField(
         'Время публикации',
         auto_now_add=True
