@@ -88,7 +88,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('amount', models.PositiveSmallIntegerField(verbose_name='Количество')),
-                ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='product_ammount', to='orders.order')),
+                ('orders', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='product_ammount', to='orders.orders')),
                 ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='product_ammount', to='orders.product')),
             ],
             options={
@@ -101,12 +101,12 @@ class Migration(migrations.Migration):
             constraint=models.UniqueConstraint(fields=('title', 'measurement_unit'), name='unique_title_measurement_unit'),
         ),
         migrations.AddField(
-            model_name='order',
+            model_name='orders',
             name='client',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Заказчик'),
         ),
         migrations.AddField(
-            model_name='order',
+            model_name='orders',
             name='products',
             field=models.ManyToManyField(related_name='products_in_order', through='orders.ProductAmount', to='orders.Product', verbose_name='Продукты'),
         ),
@@ -117,7 +117,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='productamount',
-            constraint=models.UniqueConstraint(fields=('product', 'order'), name='unique_product_order'),
+            constraint=models.UniqueConstraint(fields=('product', 'orders'), name='unique_product_order'),
         ),
         migrations.AddConstraint(
             model_name='productamount',
