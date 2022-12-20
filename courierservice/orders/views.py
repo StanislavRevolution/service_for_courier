@@ -39,3 +39,9 @@ def contact_view(request):
 
 def success_view(request):
     return HttpResponse('Приняли! Спасибо за вашу заявку.')
+
+
+def index(request):
+
+    return render(request,
+                  template_name="orders/index.html")
