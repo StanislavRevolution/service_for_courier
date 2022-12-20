@@ -1,4 +1,7 @@
 from django import forms
+from django.contrib.auth import get_user_model
+
+from users.models import CustomUser
 
 
 class CourierForm(forms.Form):
