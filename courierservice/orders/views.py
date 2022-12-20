@@ -2,8 +2,16 @@ from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
+from django.contrib.auth import login
+from django.views.generic import CreateView
+from django.contrib.auth import get_user_model
+from django.urls import reverse_lazy
 
 from .forms import CourierForm
+from users.forms import UserSignUpForm
+from users.models import CustomUser
+
+User = get_user_model()
 
 
 def try_to_send_mail(email):
@@ -17,8 +25,8 @@ def try_to_send_mail(email):
             fail_silently=False,
             # Сообщать об ошибках («молчать ли об ошибках?»)
         )
-    except BadHeaderError:
-        return HttpResponse('Ошибка в теме письма.')
+    except Exception as e:
+        return HttpResponse(f'Ошибка при отправке письма: {e}')
 
 
 @require_http_methods(["GET", "POST"])
@@ -41,7 +49,15 @@ def success_view(request):
     return HttpResponse('Приняли! Спасибо за вашу заявку.')
 
 
-def index(request):
+class UserSignUpView(CreateView):
+    model = User
+    form_class = UserSignUpForm
+    template_name = 'orders/signup_form.html'
+    success_url = reverse_lazy('orders:index')
 
-    return render(request,
-                  template_name="orders/index.html")
+
+def index(request):
+    return render(
+        request,
+        template_name="orders/index.html"
+    )

@@ -26,7 +26,8 @@ class CustomUser(AbstractUser):
     phoneNumber = PhoneNumberField(
         unique=True,
         null=False,
-        blank=False
+        blank=False,
+        verbose_name='Номер телефона'
     )
 
     class Meta:
