@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
-from users.models import CustomUser
+User = get_user_model()
 
 
 class CourierForm(forms.Form):
@@ -12,3 +12,5 @@ class CourierForm(forms.Form):
         widget=forms.Textarea,
         required=True
     )
+
+

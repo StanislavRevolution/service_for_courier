@@ -8,8 +8,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 
 from .forms import CourierForm
-from users.forms import UserSignUpForm
-from users.models import CustomUser
+from users.forms import UserSignUpForm, CourierSignUpForm
 
 User = get_user_model()
 
@@ -54,6 +53,22 @@ class UserSignUpView(CreateView):
     form_class = UserSignUpForm
     template_name = 'orders/signup_form.html'
     success_url = reverse_lazy('orders:index')
+
+
+class CouriersSignUpView(CreateView):
+    model = User
+    form_class = CourierSignUpForm
+    template_name = 'orders/ApplicationForCouriers.html'
+    success_url = reverse_lazy('orders:index')
+
+    def get_context_data(self, **kwargs):
+        kwargs['user_type'] = 'courier'
+        return super().get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('orders:index')
 
 
 def index(request):
