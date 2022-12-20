@@ -2,9 +2,27 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 
-from users.models import CourierUser
 
 User = get_user_model()
+
+
+class CourierProfile(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True,
+        verbose_name='Пользователь'
+    )
+    orders = models.ManyToManyField(
+        'Order',
+        related_name='orders_of_current_courier',
+        verbose_name='Заказы',
+        blank=True
+    )
+    image = models.ImageField(
+        upload_to='photo_of_couriers/',
+        verbose_name='Изображения'
+    )
 
 
 class Product(models.Model):
@@ -64,12 +82,6 @@ class Order(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Заказчик'
     )
-    # courier = models.ForeignKey(
-    #     CourierUser,
-    #     on_delete=models.SET_NULL,
-    #     blank=True,
-    #     null=True
-    # )
     pub_date = models.DateTimeField(
         'Время публикации',
         auto_now_add=True
@@ -138,14 +150,14 @@ class Rating (models.Model):
         on_delete=models.CASCADE
     )
     courier = models.ForeignKey(
-        CourierUser,
+        CourierProfile,
         verbose_name='Курьер',
         on_delete=models.CASCADE,
         related_name='rating_of_courier'
     )
 
     def __str__(self):
-        return f'{self.star} - {self.courier.user.username}'
+        return f'{self.star} - {self.courier.user.name}'
 
     class Meta:
         verbose_name = "Рейтинг"
@@ -156,9 +168,10 @@ class Reviews(models.Model):
     """Отзывы"""
     text = models.TextField("Отзыв", max_length=5000)
     courier = models.ForeignKey(
-        CourierUser,
+        CourierProfile,
         verbose_name="Родитель",
-        on_delete=models.SET_NULL
+        on_delete=models.SET_NULL,
+        null=True
     )
     user = models.ForeignKey(
         User,
@@ -167,7 +180,7 @@ class Reviews(models.Model):
     )
 
     def __str__(self):
-        return f'Отзывы на: {self.courier.user.username}'
+        return f'Отзывы на: {self.courier.user.name}'
 
     class Meta:
         verbose_name = "Отзыв"
