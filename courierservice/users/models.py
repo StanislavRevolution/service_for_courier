@@ -1,8 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from orders.models import Order
-
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -38,24 +36,3 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
-
-
-class CourierUser(models.Model):
-    user = models.OneToOneField(
-        CustomUser,
-        on_delete=models.CASCADE,
-        primary_key=True,
-        verbose_name='Пользователь'
-    )
-
-    orders = models.ManyToManyField(
-        Order,
-        related_name='orders_of_current_courier',
-        verbose_name='Заказы'
-    )
-    image = models.ImageField(
-        upload_to='photo_of_couriers/',
-        verbose_name='Изображения'
-    )
-
-
