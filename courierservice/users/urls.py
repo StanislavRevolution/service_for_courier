@@ -1,13 +1,13 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 
-from orders.views import UserSignUpView
+from orders import views
 
 app_name = 'users'
 
 urlpatterns = [
-    path('signup/', UserSignUpView.as_view(), name='signup'),
-    path('signup_for_couriers/', UserSignUpView.as_view(), name='signup'),
+    path('signup/', views.UserSignUpView.as_view(), name='signup'),
+    path('signup_for_couriers/', views.CouriersSignUpView.as_view(), name='signup_for_couriers'),
     path(
         'logout/',
         LogoutView.as_view(template_name='orders/logged_out.html'),

@@ -1,14 +1,14 @@
-from django.core.mail import send_mail, BadHeaderError
+from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
-from django.contrib.auth import login
 from django.views.generic import CreateView
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login
 from django.urls import reverse_lazy
 
 from .forms import CourierForm
 from users.forms import UserSignUpForm, CourierSignUpForm
+from orders.models import CourierProfile
 
 User = get_user_model()
 
@@ -17,12 +17,11 @@ def try_to_send_mail(email):
     try:
         send_mail(
             'Спасибо, что подали заявку на работу в нашей компании',
-            'Подождите пока с вами свяжется наш менеджер, который '
-            'расскажет о дальнейших действиях.',
+            'Пройдите регистрацию на курьера по данной ссылке:  '
+            'http://127.0.0.1:8000/auth/signup_for_couriers/',
             'courierjob@mail.ru',  # Это поле "От кого"
             [email],  # Это поле "Кому" (можно указать список адресов)
             fail_silently=False,
-            # Сообщать об ошибках («молчать ли об ошибках?»)
         )
     except Exception as e:
         return HttpResponse(f'Ошибка при отправке письма: {e}')
@@ -39,13 +38,20 @@ def contact_view(request):
     form = CourierForm()
     return render(
         request,
-        template_name="orders/ApplicationForCouriers.html",
+        template_name="orders/applying_for_courier.html",
         context={'form': form}
     )
 
 
 def success_view(request):
     return HttpResponse('Приняли! Спасибо за вашу заявку.')
+
+
+def index(request):
+    return render(
+        request,
+        template_name="orders/index.html"
+    )
 
 
 class UserSignUpView(CreateView):
@@ -58,7 +64,7 @@ class UserSignUpView(CreateView):
 class CouriersSignUpView(CreateView):
     model = User
     form_class = CourierSignUpForm
-    template_name = 'orders/ApplicationForCouriers.html'
+    template_name = 'orders/signup_couriers_form.html'
     success_url = reverse_lazy('orders:index')
 
     def get_context_data(self, **kwargs):
@@ -66,13 +72,10 @@ class CouriersSignUpView(CreateView):
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
-        user = form.save()
+        valid = super(CouriersSignUpView, self).form_valid(form)
+        user = form.save(commit=False)
+        user.is_courier = True
+        user.save()
         login(self.request, user)
-        return redirect('orders:index')
-
-
-def index(request):
-    return render(
-        request,
-        template_name="orders/index.html"
-    )
+        CourierProfile.objects.create(user=user)
+        return valid

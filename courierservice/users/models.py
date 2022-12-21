@@ -27,7 +27,8 @@ class CustomUser(AbstractUser):
         unique=True,
         null=False,
         blank=False,
-        verbose_name='Номер телефона'
+        verbose_name='Номер телефона',
+        help_text='+7'
     )
 
     class Meta:
