@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
+from orders.models import Order
+
 User = get_user_model()
 
 
@@ -12,5 +14,16 @@ class CourierForm(forms.Form):
         widget=forms.Textarea,
         required=True
     )
+
+
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ('products', 'address', 'comment')
+        labels = {
+            'products': 'Список продуктов',
+            'address': 'Адрес доставки',
+            'comment': 'Комментарий для курьера'
+        }
 
 

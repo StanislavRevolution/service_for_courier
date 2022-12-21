@@ -124,7 +124,7 @@ class ProductAmount(models.Model):
         verbose_name_plural = 'Продукт-Заказ'
         constraints = [
             models.UniqueConstraint(
-                fields=('product', 'orders'),
+                fields=('product', 'order'),
                 name='unique_product_order'
             ),
             models.CheckConstraint(

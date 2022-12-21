@@ -6,7 +6,7 @@ from django.views.generic import CreateView
 from django.contrib.auth import get_user_model, login
 from django.urls import reverse_lazy
 
-from .forms import CourierForm
+from .forms import CourierForm, OrderForm
 from users.forms import UserSignUpForm, CourierSignUpForm
 from orders.models import CourierProfile
 
@@ -54,11 +54,18 @@ def index(request):
     )
 
 
-class UserSignUpView(CreateView):
-    model = User
-    form_class = UserSignUpForm
-    template_name = 'orders/signup_form.html'
-    success_url = reverse_lazy('orders:index')
+def new_order(request):
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            commit = form.save(commit=False)
+            commit.client = request.user
+            commit.save()
+            return redirect('orders:index')
+        return render(request, 'orders/new_order.html', {'form': form})
+    form = OrderForm()
+
+    return render(request, "orders/new_order.html", {'form': form})
 
 
 class CouriersSignUpView(CreateView):
@@ -79,3 +86,5 @@ class CouriersSignUpView(CreateView):
         login(self.request, user)
         CourierProfile.objects.create(user=user)
         return valid
+
+

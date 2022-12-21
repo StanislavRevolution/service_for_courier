@@ -5,8 +5,9 @@
 {% block header %}
 {% endblock %}
 {% block content %}
-ОООО Это главная страница
-{% if user.is_authenticated %}
-    {{ user.username }}
-{% endif %}
+    ОООО Это главная страница
+    <a href="{% url 'orders:new_order' %}">Сделать заказ</a>
+    {% if user.is_authenticated %}
+        {{ user.username }}
+    {% endif %}
 {% endblock %}
