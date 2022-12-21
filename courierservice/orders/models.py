@@ -24,6 +24,13 @@ class CourierProfile(models.Model):
         verbose_name='Изображения'
     )
 
+    class Meta:
+        verbose_name = 'Профиль курьера'
+        verbose_name_plural = 'Профили курьера'
+
+    def __str__(self):
+        return f'Курьер: {self.user.username}'
+
 
 class Product(models.Model):
     title = models.CharField(
