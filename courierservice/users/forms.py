@@ -1,10 +1,11 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
 
 User = get_user_model()
 
 
-class UserSignUpForm(forms.ModelForm):
+class UserSignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = (
@@ -12,8 +13,14 @@ class UserSignUpForm(forms.ModelForm):
             'email',
             'first_name',
             'last_name',
-            'phoneNumber'
+            'phoneNumber',
+            'password1',
+            'password2'
         )
+        widgets = {
+            'password': forms.PasswordInput(attrs={'class': 'form-input'}),
+            'password2': forms.PasswordInput(attrs={'class': 'form-input'})
+        }
 
 
 class CourierSignUpForm(forms.ModelForm):

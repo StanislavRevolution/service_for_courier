@@ -82,6 +82,7 @@ class CouriersSignUpView(CreateView):
         valid = super(CouriersSignUpView, self).form_valid(form)
         user = form.save(commit=False)
         user.is_courier = True
+        user.set_password(form.cleaned_data['password'])
         user.save()
         login(self.request, user)
         CourierProfile.objects.create(user=user)
