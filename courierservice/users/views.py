@@ -11,3 +11,4 @@ class UserSignUpView(CreateView):
     form_class = UserSignUpForm
     template_name = 'orders/signup_form.html'
     success_url = reverse_lazy('orders:index')
+    print("check")
