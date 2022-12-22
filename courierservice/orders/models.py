@@ -1,9 +1,25 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.core.validators import MinValueValidator
-
+from django.urls import reverse
 
 User = get_user_model()
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=200, db_index=True)
+    slug = models.SlugField(max_length=200, db_index=True, unique=True)
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('orders:product_list_by_category',
+                       args=[self.slug])
 
 
 class CourierProfile(models.Model):
@@ -33,34 +49,31 @@ class CourierProfile(models.Model):
 
 
 class Product(models.Model):
-    title = models.CharField(
-        'Название продукта',
-        max_length=200
+    category = models.ForeignKey(
+        Category,
+        related_name='products',
+        on_delete=models.CASCADE
     )
-    measurement_unit = models.CharField(
-        'Единица измерения',
-        max_length=15
-    )
-    price = models.PositiveSmallIntegerField(
-        'Стоимость продукта',
-        default=1,
-        validators=[
-            MinValueValidator(1)
-        ]
-    )
+    name = models.CharField(max_length=200, db_index=True)
+    slug = models.SlugField(max_length=200, db_index=True)
+    image = models.ImageField(upload_to='products/', blank=True)
+    description = models.TextField(blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    stock = models.PositiveIntegerField()
+    available = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'Продукт'
-        verbose_name_plural = 'Продукты'
-        constraints = [
-            models.UniqueConstraint(
-                fields=('title', 'measurement_unit'),
-                name='unique_title_measurement_unit'
-            )
-        ]
+        ordering = ('name',)
+        index_together = (('id', 'slug'),)
 
     def __str__(self):
-        return f'{self.title}:{self.measurement_unit}'
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('orders:product_detail',
+                       args=[self.id, self.slug])
 
 
 class Order(models.Model):

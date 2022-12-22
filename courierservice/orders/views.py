@@ -1,6 +1,6 @@
 from django.core.mail import send_mail
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView
 from django.contrib.auth import get_user_model, login
@@ -8,9 +8,36 @@ from django.urls import reverse_lazy
 
 from .forms import CourierForm, OrderForm
 from users.forms import UserSignUpForm, CourierSignUpForm
-from orders.models import CourierProfile
+from orders.models import CourierProfile, Category, Product
 
 User = get_user_model()
+
+
+def product_list(request, category_slug=None):
+    category = None
+    print('1')
+    # categories = Category.objects.all()
+    print('2')
+    products = Product.objects.filter(available=True)
+    print('3')
+    # context = {'category': category,
+    #            'categories': categories,
+    #            'products': products}
+    # if category_slug:
+    #     category = get_object_or_404(Category, slug=category_slug)
+    #     products = products.filter(category=category)
+    return render(request, template_name='orders/product_list.html', context={'products':products})
+
+
+
+def product_detail(request, id, slug):
+    product = get_object_or_404(Product,
+                                id=id,
+                                slug=slug,
+                                available=True)
+    # return render(request,
+    #               'shop/product/detail.html',
+    #               {'product': product})
 
 
 def try_to_send_mail(email):
@@ -48,10 +75,11 @@ def success_view(request):
 
 
 def index(request):
-    return render(
-        request,
-        template_name="orders/index.html"
-    )
+    products = Product.objects.all()
+    context = {
+        'products': products
+    }
+    return render(request, "orders/index.html", context)
 
 
 def new_order(request):
