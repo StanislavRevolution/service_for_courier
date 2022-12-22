@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
-from orders.models import Order
+from orders.models import Order, Product
 
 User = get_user_model()
 
@@ -25,5 +25,12 @@ class OrderForm(forms.ModelForm):
             'address': 'Адрес доставки',
             'comment': 'Комментарий для курьера'
         }
+        widgets = {
+            'products': forms.Select(),
+        }
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['products'].queryset = Product.objects.none()
 
 

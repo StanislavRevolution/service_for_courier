@@ -1,18 +1,30 @@
 {% extends "base.html" %}
 {% block title %}
-    Главная страница
+    Список продуктов
 {% endblock %}
 {% block header %}
 {% endblock %}
 {% block content %}
-    ОООО Это главная страница
-    <a href="{% url 'orders:new_order' %}">Сделать заказ</a>
+    <div id="sidebar">
+        <h3>Categories</h3>
+        <ul>
+            <li {% if not category %}class="selected"{% endif %}>
+                <a href="{% url "orders:product_list:" %}">All</a>
+            </li>
+            {% for c in categories %}
+                <li {% if category.slug == c.slug %}class="selected"{% endif %}>
+                    <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
     <div class="card-group">
         <div class="row">
             {% for product in products %}
                 <div class="col-md-4">
                     <div class="card" style="max-width: 500px; height: 550px;">
-                        <img class="card-img-top" src="{{ product.image.url}}" alt="Card image cap" width="200" height="300">
+                        <img class="card-img-top" src="{{ product.image.url }}" alt="Card image cap" width="200"
+                             height="300">
                         <div class="card-body">
                             <h5 class="card-title">{{ product.name }}</h5>
                             <p class="card-text">{{ product.description }}</p>
