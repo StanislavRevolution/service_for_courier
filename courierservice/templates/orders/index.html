@@ -5,22 +5,5 @@
 {% block header %}
 {% endblock %}
 {% block content %}
-    ОООО Это главная страница
-    <a href="{% url 'orders:new_order' %}">Сделать заказ</a>
-    <div class="card-group">
-        <div class="row">
-            {% for product in products %}
-                <div class="col-md-4">
-                    <div class="card" style="max-width: 500px; height: 550px;">
-                        <img class="card-img-top" src="{{ product.image.url}}" alt="Card image cap" width="200" height="300">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text">{{ product.description }}</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
+Добро пожаловать на главную страницу сайта!
 {% endblock %}

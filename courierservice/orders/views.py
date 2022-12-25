@@ -1,57 +1,16 @@
-from django.core.mail import send_mail
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 from django.contrib.auth import get_user_model, login
 from django.urls import reverse_lazy
 
 from .forms import CourierForm, OrderForm
-from users.forms import UserSignUpForm, CourierSignUpForm
-from orders.models import CourierProfile, Category, Product
+from users.forms import CourierSignUpForm
+from orders.models import CourierProfile, Product
+from .utils import try_to_send_mail
 
 User = get_user_model()
-
-
-def product_list(request, category_slug=None):
-    category = None
-    print('1')
-    # categories = Category.objects.all()
-    print('2')
-    products = Product.objects.filter(available=True)
-    print('3')
-    # context = {'category': category,
-    #            'categories': categories,
-    #            'products': products}
-    # if category_slug:
-    #     category = get_object_or_404(Category, slug=category_slug)
-    #     products = products.filter(category=category)
-    return render(request, template_name='orders/product_list.html', context={'products':products})
-
-
-
-def product_detail(request, id, slug):
-    product = get_object_or_404(Product,
-                                id=id,
-                                slug=slug,
-                                available=True)
-    # return render(request,
-    #               'shop/product/detail.html',
-    #               {'product': product})
-
-
-def try_to_send_mail(email):
-    try:
-        send_mail(
-            'Спасибо, что подали заявку на работу в нашей компании',
-            'Пройдите регистрацию на курьера по данной ссылке:  '
-            'http://127.0.0.1:8000/auth/signup_for_couriers/',
-            'courierjob@mail.ru',  # Это поле "От кого"
-            [email],  # Это поле "Кому" (можно указать список адресов)
-            fail_silently=False,
-        )
-    except Exception as e:
-        return HttpResponse(f'Ошибка при отправке письма: {e}')
 
 
 @require_http_methods(["GET", "POST"])
@@ -65,7 +24,7 @@ def contact_view(request):
     form = CourierForm()
     return render(
         request,
-        template_name="orders/applying_for_courier.html",
+        template_name="orders/../templates/authorization/applying_for_courier.html",
         context={'form': form}
     )
 
@@ -99,7 +58,7 @@ def new_order(request):
 class CouriersSignUpView(CreateView):
     model = User
     form_class = CourierSignUpForm
-    template_name = 'orders/signup_couriers_form.html'
+    template_name = 'orders/../templates/authorization/signup_couriers_form.html'
     success_url = reverse_lazy('orders:index')
 
     def get_context_data(self, **kwargs):
@@ -117,3 +76,7 @@ class CouriersSignUpView(CreateView):
         return valid
 
 
+class ProductsListView(ListView):
+    model = Product
+    template_name = 'orders/product_list.html'
+    context_object_name = 'products'

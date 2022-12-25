@@ -9,8 +9,8 @@
             {% with request.resolver_match.view_name as view_name %}
                 <ul class="nav nav-pills">
                     <li class="nav-item">
-                        <a class="nav-link {% if view_name  == 'about:author' %}active{% endif %}"
-                           href="">Об авторе
+                        <a class="nav-link {% if view_name  == 'orders:product_list' %}active{% endif %}"
+                           href="{% url 'orders:product_list' %}">Продукты
                         </a>
                     </li>
                     <li class="nav-item">
@@ -51,9 +51,6 @@
                     {% endif %}
                 </ul>
             {% endwith %}
-            {#    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">#}
-            {#      <span class="navbar-toggler-icon"></span>#}
-            {#    </button>#}
         </div>
     </nav>
 </header>
