@@ -11,12 +11,12 @@ urlpatterns = [
     path('signup_for_couriers/', views.CouriersSignUpView.as_view(), name='signup_for_couriers'),
     path(
         'logout/',
-        LogoutView.as_view(template_name='orders/logged_out.html'),
+        LogoutView.as_view(template_name='orders/../templates/authorization/logged_out.html'),
         name='logout'),
 
     path(
         'login/',
-        LoginView.as_view(template_name='orders/login.html'),
+        LoginView.as_view(template_name='orders/../templates/authorization/login.html'),
         name='login'
     ),
 ]
