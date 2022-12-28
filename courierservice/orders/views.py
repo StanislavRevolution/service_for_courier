@@ -9,6 +9,7 @@ from .forms import CourierForm, OrderForm
 from users.forms import CourierSignUpForm
 from orders.models import CourierProfile, Product
 from .utils import try_to_send_mail
+from cart.forms import CartAddProductForm
 
 User = get_user_model()
 
@@ -80,3 +81,9 @@ class ProductsListView(ListView):
     model = Product
     template_name = 'orders/product_list.html'
     context_object_name = 'products'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cart_product_form = CartAddProductForm()
+        context['cart_product_form'] = cart_product_form
+        return context

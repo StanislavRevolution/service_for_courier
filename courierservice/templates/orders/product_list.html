@@ -5,50 +5,27 @@
 {% block header %}
 {% endblock %}
 {% block content %}
-        ОООО Это главная страница
-        <a href="{% url 'orders:new_order' %}">Сделать заказ</a>
-        <div class="container">
-            <div class="row">
-                {% for product in products %}
-                    <div class="col-lg-4 .col-sm-6">
-                        <div class="card" style="max-width: 500px; height: 550px;">
-                            <img class="card-img-top" src="{{ product.image.url}}" alt="Card image cap" width="200" height="300">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ product.name }}</h5>
-                                <p class="card-text">{{ product.description }}</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
+    ОООО Это главная страница
+    <a href="{% url 'orders:new_order' %}">Сделать заказ</a>
+    <div class="container">
+        <div class="row">
+            {% for product in products %}
+                <div class="col-lg-4 .col-sm-6">
+                    <div class="card" style="max-width: 500px; height: 550px;">
+                        <img class="card-img-top" src="{{ product.image.url }}" alt="Card image cap" width="200"
+                             height="300">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description }}</p>
+                            <form action="{% url "cart:cart_add" product.id %}" method="post">
+                                {{ cart_product_form }}
+                                {% csrf_token %}
+                                <input type="submit" value="Add to cart">
+                            </form>
                         </div>
                     </div>
-                {% endfor %}
-            </div>
-        </div>
-{% endblock %}
-<link rel="stylesheet" type="text/css" href="product.css">
-    <section class="main-content">
-        <div class="container">
-            <div class="row">
-                {% for product in products %}
-                    <div class="col-lg-4 .col-sm-6">
-                    <div class="product-card">
-                        <div class="product-thumb">
-                            <a href="#"><img src="{{ product.image.url}}" alt=""></a>
-                        </div>
-                        <div class="product-details">
-                            <h4><a href="#">{{ product.name }}</a></h4>
-                            <p>{{ product.description }}</p>
-                        </div>
-                        <div class="product-bottom-details d-flex justify-content-between">
-                            <div class="product-price">
-                                {{ product.price }}
-                            </div>
-                            <div class="product-links">
-                                <a href="#">Добавить в корзину</a>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
                 </div>
-            </div>
+            {% endfor %}
         </div>
-    </section>
+    </div>
+{% endblock %}

@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'users',
     'orders',
     'core',
+    'cart',
     'phonenumber_field'
 ]
 
@@ -47,6 +48,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processors.cart'
             ],
         },
     },
@@ -103,3 +105,4 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'orders:index'
 
+CART_SESSION_ID = 'cart'

@@ -28,9 +28,3 @@ class OrderForm(forms.ModelForm):
         widgets = {
             'products': forms.Select(),
         }
-
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['products'].queryset = Product.objects.none()
-
-
