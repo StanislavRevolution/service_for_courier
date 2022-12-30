@@ -9,6 +9,6 @@ User = get_user_model()
 class UserSignUpView(CreateView):
     model = User
     form_class = UserSignUpForm
-    template_name = 'orders/../templates/authorization/signup_form.html'
+    template_name = 'authorization/signup_form.html'
     success_url = reverse_lazy('orders:index')
-    print("check")
+

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}
+    Биржа заказов
+{% endblock %}
+{% block content %}
+    <h2>Биржа заказов:</h2>
+    <ul class="list-group">
+        {% for order in object_list %}
+            <form method="post" action="{% url 'orders:accept_order' order.id %}">
+                {% csrf_token %}
+                <li class="list-group-item">Номер: {{ order.id }}&nbsp; Дата: {{ order.pub_date|date:"d E" }}&nbsp;
+                    Адрес: {{ order.address }}</li>
+                <button type="submit" class="btn btn-primary">Принять заказ</button>
+            </form>
+        {% endfor %}
+    </ul>
+{% endblock %}
