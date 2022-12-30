@@ -7,9 +7,10 @@ from django.urls import reverse_lazy
 
 from .forms import CourierForm, OrderForm
 from users.forms import CourierSignUpForm
-from orders.models import CourierProfile, Product
+from .models import CourierProfile, Product, OrderItem
 from .utils import try_to_send_mail
 from cart.forms import CartAddProductForm
+from cart.cart import Cart
 
 User = get_user_model()
 
@@ -43,16 +44,26 @@ def index(request):
 
 
 def new_order(request):
+    cart = Cart(request)
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
-            commit = form.save(commit=False)
-            commit.client = request.user
-            commit.save()
-            return redirect('orders:index')
-        return render(request, 'orders/new_order.html', {'form': form})
-    form = OrderForm()
+            order = form.save(commit=False)
+            order.client = request.user
+            order.save()
+            for item in cart:
+                OrderItem.objects.create(
+                    order=order,
+                    product=item['product'],
+                    price=item['price'],
+                    quantity=item['quantity']
 
+                )
+            cart.clear()
+            return redirect('orders:index')
+            # return render(request, 'orders/order/created.html',
+            #               {'order': order})
+    form = OrderForm()
     return render(request, "orders/new_order.html", {'form': form})
 
 

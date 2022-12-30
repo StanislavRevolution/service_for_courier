@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 {% block title %}
-    Главная страница
+    Страница продуктов
 {% endblock %}
 {% block header %}
 {% endblock %}
 {% block content %}
-    ОООО Это главная страница
-    <a href="{% url 'orders:new_order' %}">Сделать заказ</a>
     <div class="container">
         <div class="row">
             {% for product in products %}
