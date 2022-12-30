@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
 from django.views.generic import CreateView, ListView
 from django.contrib.auth import get_user_model, login
@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 
 from .forms import CourierForm, OrderForm
 from users.forms import CourierSignUpForm
-from .models import CourierProfile, Product, OrderItem
+from .models import CourierProfile, Product, OrderItem, Order
 from .utils import try_to_send_mail
 from cart.forms import CartAddProductForm
 from cart.cart import Cart
@@ -26,7 +26,7 @@ def contact_view(request):
     form = CourierForm()
     return render(
         request,
-        template_name="orders/../templates/authorization/applying_for_courier.html",
+        template_name="authorization/applying_for_courier.html",
         context={'form': form}
     )
 
@@ -60,17 +60,22 @@ def new_order(request):
 
                 )
             cart.clear()
-            return redirect('orders:index')
-            # return render(request, 'orders/order/created.html',
-            #               {'order': order})
+            return render(request, 'orders/sucess_order.html')
     form = OrderForm()
     return render(request, "orders/new_order.html", {'form': form})
+
+
+def accept_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    courier = get_object_or_404(CourierProfile, user=request.user)
+    courier.orders.add(order)
+    return redirect('orders:index')
 
 
 class CouriersSignUpView(CreateView):
     model = User
     form_class = CourierSignUpForm
-    template_name = 'orders/../templates/authorization/signup_couriers_form.html'
+    template_name = 'authorization/signup_couriers_form.html'
     success_url = reverse_lazy('orders:index')
 
     def get_context_data(self, **kwargs):
@@ -98,3 +103,9 @@ class ProductsListView(ListView):
         cart_product_form = CartAddProductForm()
         context['cart_product_form'] = cart_product_form
         return context
+
+
+class OrdersListView(ListView):
+    model = Order
+    template_name = 'orders/order_list.html'
+
