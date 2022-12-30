@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Product, Order, ProductAmount, Category
+from .models import Product, Order, Category, OrderItem
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -15,7 +15,18 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
 
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    raw_id_fields = ['product']
+
+
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'address', 'status', 'comment']
+    list_filter = ['paid', 'pub_date']
+    inlines = [OrderItemInline]
+
+
+admin.site.register(Order, OrderAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
-admin.site.register(Order)
-admin.site.register(ProductAmount)
+

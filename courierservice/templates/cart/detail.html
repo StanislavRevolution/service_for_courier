@@ -1,16 +1,15 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <h1>Your shopping cart</h1>
+    <h1>Ваша корзина покупок</h1>
     <table class="cart">
         <thead>
         <tr>
-            <th>Image</th>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Remove</th>
-            <th>Unit price</th>
-            <th>Price</th>
+            <th>Продукт</th>
+            <th>Количество</th>
+            <th>Удаление</th>
+            <th>Цена со скидкой</th>
+            <th>Цена без скидки</th>
         </tr>
         </thead>
         <tbody>
@@ -19,21 +18,23 @@
                 <tr>
                     <td>{{ product.name }}</td>
                     <td>{{ item.quantity }}</td>
-                    <td><a href="{% url "cart:cart_remove" product.id%}">Remove</a></td>
-                    <td class="num">${{ item.price }}</td>
-                    <td class="num">${{ item.total_price }}</td>
+                    <td><a href="{% url "cart:cart_remove" product.id %}">Удалить</a></td>
+                    <td class="num">{{ item.price }}₽</td>
+                    <td class="num">{{ item.total_price }}₽</td>
                 </tr>
             {% endwith %}
         {% endfor %}
         <tr class="total">
-            <td>Total</td>
+            <td>Общая сумма:</td>
             <td colspan="4"></td>
-            <td class="num">${{ cart.get_total_price }}</td>
+            <td class="num">{{ cart.get_total_price }}₽</td>
         </tr>
         </tbody>
     </table>
     <p class="text-right">
-        <a href="{% url "orders:product_list" %}" class="button light">Continue shopping</a>
-        <a href="#" class="button">Checkout</a>
+        <a href="{% url "orders:product_list" %}" class="button light">Продолжить покупки</a>
+        <a href="{% url "orders:new_order" %}" class="button">
+            Оформить заказ
+        </a>
     </p>
 {% endblock %}

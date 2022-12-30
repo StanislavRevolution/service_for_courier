@@ -12,13 +12,13 @@
                     <li class="nav-item">
                         {% with total_items=cart|length %}
                             {% if cart|length > 0 %}
-                                Your cart:
+                                Корзина покупок:
                                 <a href="{% url "cart:cart_detail" %}">
-                                    {{ total_items }} item{{ total_items|pluralize }},
-                                    ${{ cart.get_total_price }}
+                                    {{ total_items }} предмета,
+                                    {{ cart.get_total_price }}₽
                                 </a>
                             {% else %}
-                                Your cart is empty.
+                                Ваша корзина пуста.
                             {% endif %}
                         {% endwith %}
                     </li>
