@@ -1,0 +1,1 @@
+sass --watch D:\Shahnewaz\Dropbox\Shahnewaz\puik\assets\scss\main.scss:D:\Shahnewaz\Dropbox\Shahnewaz\puik\assets\css\main.css

@@ -39,7 +39,7 @@ def index(request):
     context = {
         'products': products
     }
-    return render(request, "orders/index.html", context)
+    return render(request, "orders/index-1.html", context)
 
 
 def new_order(request):
