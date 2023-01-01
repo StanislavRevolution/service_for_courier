@@ -1,9 +1,52 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}
     Главная страница
 {% endblock %}
 {% block header %}
 {% endblock %}
 {% block content %}
-Добро пожаловать на главную страницу сайта!
+    <center><h2><strong>У нас только лучшие работники:</strong></h2></center>
+{#    <center><h4><strong>здесь представлены наши лучшие курьеры</strong></h4></center>#}
+    <br>
+    <br>
+    <link rel="stylesheet" href="{% static 'css/styles_index_stas.css' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h4 class="text-center"><strong>Гор Тадоян</strong></h4>
+                <hr>
+                <div class="profile-card-2"><img
+                        src="{% static 'images/pjNROtsP3YBfc0ft8XpelMd33U-m8Ex3mYukwkTPiVg6VgsZcNTkLmbL8nbWL1lSiriY7Ph7_cut-photo.ru.jpg' %}"
+                        class="img img-responsive">
+                    <div class="profile-username">@gor_tadoyan</div>
+                    <div class="profile-icons"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i
+                            class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-linkedin"></i></a></div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <h4 class="text-center"><strong>Максим Никифоров</strong></h4>
+                <hr>
+                <div class="profile-card-2"><img
+                        src="{% static 'images/SjpntelMmgDyCDk_rkF2uVupUBDvN9lG4hwf7LtFx1Hu6Izzjo9GTKrUxEuFC0kptXvr9u8Zxfd-1tnbZDPrHIky_cut-photo.ru.jpg' %}"
+                        class="img img-responsive">
+                    <div class="profile-username">@maximus_proger</div>
+                    <div class="profile-icons"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i
+                            class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-linkedin"></i></a></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h4 class="text-center"><strong>Стас Орловский</strong></h4>
+                <hr>
+                <div class="profile-card-2"><img
+                        src="{% static 'images/cgCicXKHYZbUHGC4E5QYngqjFMmmKxaG-pmHbZoshSUR6TWqtG2lccjuQCXtikWfWqiNqNnze9nDU2TcE8yWoK3n_cut-photo.ru.jpg' %}"
+                        class="img img-responsive">
+                    <div class="profile-username">@http.orlovskiy</div>
+                    <div class="profile-icons"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i
+                            class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-linkedin"></i></a></div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

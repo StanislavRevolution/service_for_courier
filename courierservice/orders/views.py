@@ -1,6 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_http_methods, require_POST
 from django.views.generic import CreateView, ListView
 from django.contrib.auth import get_user_model, login
 from django.urls import reverse_lazy
@@ -40,7 +41,7 @@ def index(request):
     context = {
         'products': products
     }
-    return render(request, "orders/index-1.html", context)
+    return render(request, "orders/index.html", context)
 
 
 def new_order(request):
@@ -50,6 +51,7 @@ def new_order(request):
         if form.is_valid():
             order = form.save(commit=False)
             order.client = request.user
+            order.paid = True
             order.save()
             for item in cart:
                 OrderItem.objects.create(
@@ -65,10 +67,14 @@ def new_order(request):
     return render(request, "orders/new_order.html", {'form': form})
 
 
+@require_POST
+@login_required
 def accept_order(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     courier = get_object_or_404(CourierProfile, user=request.user)
     courier.orders.add(order)
+    order.status = 'GT'
+    order.save()
     return redirect('orders:index')
 
 
