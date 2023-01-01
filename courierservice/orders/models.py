@@ -65,6 +65,8 @@ class Product(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
+        verbose_name = 'Продукт'
+        verbose_name_plural = 'Продукты'
         ordering = ('name',)
         index_together = (('id', 'slug'),)
 
@@ -83,7 +85,7 @@ class Order(models.Model):
     DELIVERED = 'DV'
     STATUS_CHOICES = (
         (WAITING_SUBMIT, 'Waiting submit'),
-        (GOING_TO, 'going to'),
+        (GOING_TO, 'Going to'),
         (ON_THE_WAY, 'On the way'),
         (DELIVERED, 'delivered'),
     )
