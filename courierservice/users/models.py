@@ -6,7 +6,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 class CustomUser(AbstractUser):
     username = models.CharField(
-        'Никнейм',
+        'Имя пользователя',
         db_index=True,
         max_length=255,
         unique=True

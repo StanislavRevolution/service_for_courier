@@ -1,72 +1,161 @@
 {% extends "base.html" %}
 {% block title %}Войти{% endblock %}
 {% block content %}
-    {% load user_filters %}
-    <div class="row justify-content-center">
-        <div class="col-md-8 p-5">
-            <div class="card">
-                <div class="card-header">
-                    Войти на сайт
-                </div>
-                <div class="card-body">
-                    {% if form.errors %}
-                        {% for field in form %}
-                            {% for error in field.errors %}
-                                <div class="alert alert-danger">
-                                    {{ error|escape }}
-                                </div>
-                            {% endfor %}
-                        {% endfor %}
-                        {% for error in form.non_field_errors %}
-                            <div class="alert alert-danger">
-                                {{ error|escape }}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-
-                    <form method="post"
-                            {% if action_url %}
-                          action="{% url action_url %}"
+    {% load static %}
+       {% load user_filters %}
+    {#    {% load user_filters %}#}
+    {#    <div class="row justify-content-center">#}
+    {#        <div class="col-md-8 p-5">#}
+    {#            <div class="card">#}
+    {#                <div class="card-header">#}
+    {#                    Войти на сайт#}
+    {#                </div>#}
+    {#                <div class="card-body">#}
+    {#                    {% if form.errors %}#}
+    {#                        {% for field in form %}#}
+    {#                            {% for error in field.errors %}#}
+    {#                                <div class="alert alert-danger">#}
+    {#                                    {{ error|escape }}#}
+    {#                                </div>#}
+    {#                            {% endfor %}#}
+    {#                        {% endfor %}#}
+    {#                        {% for error in form.non_field_errors %}#}
+    {#                            <div class="alert alert-danger">#}
+    {#                                {{ error|escape }}#}
+    {#                            </div>#}
+    {#                        {% endfor %}#}
+    {#                    {% endif %}#}
+    {##}
+    {#                    <form method="post"#}
+    {#                            {% if action_url %}#}
+    {#                          action="{% url action_url %}"#}
+    {#                            {% endif %}#}
+    {#                    >#}
+    {#                        {% csrf_token %}#}
+    {#                        {% for field in form %}#}
+    {#                            <div class="form-group row my-3"#}
+    {#                                    {% if field.field.required %}#}
+    {#                                 aria-required="true"#}
+    {#                                    {% else %}#}
+    {#                                 aria-required="false"#}
+    {#                                    {% endif %}#}
+    {#                            >#}
+    {#                                <label for="{{ field.id_for_label }}">#}
+    {#                                    {{ field.label }}#}
+    {#                                    {% if field.field.required %}#}
+    {#                                        <span class="required text-danger">*</span>#}
+    {#                                    {% endif %}#}
+    {#                                </label>#}
+    {#                                <div>#}
+    {#                                    {{ field|addclass:'form-control' }}#}
+    {#                                    {% if field.help_text %}#}
+    {#                                        <small id="{{ field.id_for_label }}-help" class="form-text text-muted">#}
+    {#                                            {{ field.help_text|safe }}#}
+    {#                                        </small>#}
+    {#                                    {% endif %}#}
+    {#                                </div>#}
+    {#                            </div>#}
+    {#                        {% endfor %}#}
+    {#                        <div class="col-md-6 offset-md-4">#}
+    {#                            <button type="submit" class="btn btn-primary">#}
+    {#                                Войти#}
+    {#                            </button>#}
+    {#                            <!-- Тест на внимательность. Без переопределения шаблона этого адреса#}
+    {#                            не существует. Нужно что-то делать, иначе все упадет -->#}
+    {#                            <a href="{% url 'users:password_reset' %}" class="btn btn-link">#}
+    {#                                Забыли пароль?#}
+    {#                            </a>#}
+    {#                        </div>#}
+    {#                    </form>#}
+    {#                </div> <!-- card body -->#}
+    {#            </div> <!-- card -->#}
+    {#        </div> <!-- col -->#}
+    {#    </div> <!-- row -->#}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css"
+          integrity="sha256-3sPp8BkKUE7QyPSl6VfBByBroQbKxKG7tsusY2mhbVY=" crossorigin="anonymous"/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-11 mt-60 mx-md-auto">
+                <div class="login-box bg-white pl-lg-5 pl-0">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-md-6">
+                            <div class="form-wrap bg-white">
+                                <h4 class="btm-sep pb-3 mb-5">Войти в аккаунт</h4>
+                            {% if form.errors %}
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <div class="alert alert-danger">
+                                            {{ error|escape }}
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    <div class="alert alert-danger">
+                                        {{ error|escape }}
+                                    </div>
+                                {% endfor %}
                             {% endif %}
-                    >
-                        {% csrf_token %}
-                        {% for field in form %}
-                            <div class="form-group row my-3"
-                                    {% if field.field.required %}
-                                 aria-required="true"
-                                    {% else %}
-                                 aria-required="false"
-                                    {% endif %}
-                            >
-                                <label for="{{ field.id_for_label }}">
-                                    {{ field.label }}
-                                    {% if field.field.required %}
-                                        <span class="required text-danger">*</span>
-                                    {% endif %}
-                                </label>
-                                <div>
-                                    {{ field|addclass:'form-control' }}
-                                    {% if field.help_text %}
-                                        <small id="{{ field.id_for_label }}-help" class="form-text text-muted">
-                                            {{ field.help_text|safe }}
-                                        </small>
-                                    {% endif %}
+                                <form class="form" method="post" action="{% url 'users:login' %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group position-relative">
+                                            {% for field in form %}
+                                                <div class="form-group position-relative">
+                                                    <label for="{{ field.id_for_label }}">
+                                                        {{ field.label }}
+                                                        {% if field.field.required %}
+                                                            <span class="required text-danger">*</span>
+                                                        {% endif %}
+                                                    </label>
+                                                    {# К полю ввода добавляем атрибут class #}
+                                                    {{ field|addclass:'form-control' }}
+                                                    {% if field.help_text %}
+                                                        <small
+                                                                id="{{ field.id_for_label }}-help"
+                                                                class="form-text text-muted"
+                                                        >
+                                                            {{ field.help_text|safe }}
+                                                        </small>
+                                                    {% endif %}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="col-12 text-lg-right">
+                                        <a href="#" class="c-black">Забыли пароль ?</a>
+                                    </div>
+                                    <div class="col-12 mt-30">
+                                        <button type="submit" id="submit"
+                                                class="btn btn-lg btn-custom btn-dark btn-block">Войти
+                                        </button>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="content text-center">
+                                <div class="border-bottom pb-5 mb-5">
+                                    <h3 class="c-black">Первый раз у нас?</h3>
+                                    <a href="{% url 'users:signup' %}" class="btn btn-custom">Регистрация</a>
+                                </div>
+                                <h5 class="c-black mb-4 mt-n1">Войдите с помощью</h5>
+                                <div class="socials">
+                                    <a href="#" class="zmdi zmdi-facebook"></a>
+                                    <a href="#" class="zmdi zmdi-twitter"></a>
+                                    <a href="#" class="zmdi zmdi-google"></a>
+                                    <a href="#" class="zmdi zmdi-instagram"></a>
                                 </div>
                             </div>
-                        {% endfor %}
-                        <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-primary">
-                                Войти
-                            </button>
-                            <!-- Тест на внимательность. Без переопределения шаблона этого адреса
-                            не существует. Нужно что-то делать, иначе все упадет -->
-                            {#                            <a href="{% url 'users:password_reset' %}" class="btn btn-link">#}
-                            {#                                Забыли пароль?#}
-                            {#                            </a>#}
                         </div>
-                    </form>
-                </div> <!-- card body -->
-            </div> <!-- card -->
-        </div> <!-- col -->
-    </div> <!-- row -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
