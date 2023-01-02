@@ -1,27 +1,62 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}
     Страница продуктов
 {% endblock %}
 {% block content %}
-    <div class="container">
-        <div class="row">
-            {% for product in products %}
-                <div class="col-lg-4 .col-sm-6">
-                    <div class="card" style="max-width: 500px; height: 550px;">
-                        <img class="card-img-top" src="{{ product.image.url }}" alt="Card image cap" width="200"
-                             height="300">
+    {#        <div class="container">#}
+    {#            <div class="row">#}
+    {#                {% for product in products %}#}
+    {#                    <div class="col-lg-4 .col-sm-6">#}
+    {#                        <div class="card" style="max-width: 500px; height: 550px;">#}
+    {#                            <img class="card-img-top" src="{{ product.image.url }}" alt="Card image cap" width="200"#}
+    {#                                 height="300">#}
+    {#                            <div class="card-body">#}
+    {#                                <h5 class="card-title">{{ product.name }}</h5>#}
+    {#                                <p class="card-text">{{ product.description }}</p>#}
+    {#    <form action="{% url "cart:cart_add" product.id %}" method="post">#}
+    {#        {{ cart_product_form }}#}
+    {#        {% csrf_token %}#}
+    {#        <input type="submit" value="Add to cart">#}
+    {#    </form>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                {% endfor %}#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    {% endblock %}#}
+    <link rel="stylesheet" href="{% static 'css/product_list.css' %}">
+    <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative;">
+        <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
+            <div class="col">
+                {% for product in products %}
+                    <div class="card h-100 shadow-sm"><img
+                            src="{{ product.image.url }}"
+                            class="card-img-top" alt="...">
                         <div class="card-body">
-                            <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text">{{ product.description }}</p>
+                            <div class="clearfix mb-3"><span
+                                    class="float-start badge rounded-pill bg-primary">{{ product.name }}</span> <span
+                                    class="float-end price-hp">{{ product.price }}₽</span></div>
+                            <h5 class="card-title">{{ product.description }}</h5>
                             <form action="{% url "cart:cart_add" product.id %}" method="post">
-                                {{ cart_product_form }}
+                                <div class="text-center my-4">
+{#                                    <select class="form-select" aria-label="Default select example">#}
+{#                                        {% for count in cart_product_form.quantity%}#}
+{#                                            <option value="{{ count }}">{{ count }}</option>#}
+{#                                        {% endfor %}#}
+{#                                    </select>#}
+                                    <select class="form-select" aria-label="Default select example">
+                                    {{ cart_product_form }}
+                                    </select>
+                                </div>
                                 {% csrf_token %}
-                                <input type="submit" value="Add to cart">
+                                <button type="submit" class="btn btn-secondary">Добавить в корзину</button>
                             </form>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}

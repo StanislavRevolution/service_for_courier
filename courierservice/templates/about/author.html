@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Об авторе проекта{% endblock %}
+{% block content %}
+    <!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+</head>
+
+<body>
+    <div class="testimonials-clean">
+        <div class="container">
+            <div class="intro">
+                <h2 class="text-center">Кто мы?</h2>
+                <p class="text-center">Мы знаем, что вы любите нас, поэтому прилагаем все усилия для моментальной доставки ваших товаров!</p>
+            </div>
+            <div class="row people">
+                <div class="col-md-6 col-lg-4 item">
+                    <div class="box">
+                        <p class="description">Два самых важных дня в твоей жизни: день, когда ты появился на свет, и день, когда понял, зачем.</p>
+                    </div>
+                    <div class="author"><img class="rounded-circle" src="{% static 'images/tOHzUGjciMZzxTOr7-2VZDbRB3Qu7m-79hTu6o34qdOr-CrkeeUfTvwy0icIic-VXYu5cOy33jsiju_425abAD0F_cut-photo.ru.jpg' %}">
+                        <h5 class="name">Орловский Станислав</h5>
+                        <p class="title">CEO of Company Inc.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 item">
+                    <div class="box">
+                        <p class="description">Человек, которым вам суждено стать – это только тот человек, которым вы сами решите стать</p>
+                    </div>
+                    <div class="author"><img class="rounded-circle" src="{% static 'images/SjpntelMmgDyCDk_rkF2uVupUBDvN9lG4hwf7LtFx1Hu6Izzjo9GTKrUxEuFC0kptXvr9u8Zxfd-1tnbZDPrHIky_cut-photo.ru.jpg' %}">
+                        <h5 class="name">Максим Никифоров</h5>
+                        <p class="title">Owner of Creative Ltd.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+{% endblock %}

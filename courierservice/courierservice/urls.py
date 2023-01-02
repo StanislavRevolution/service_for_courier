@@ -8,6 +8,7 @@ app_name = 'main'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('users.urls', namespace='users')),
+    path('about/', include('about.urls', namespace='about')),
     path(r'^cart/', include('cart.urls', namespace='cart')),
     path('', include('orders.urls', namespace='orders')),
 
