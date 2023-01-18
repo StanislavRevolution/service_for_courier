@@ -19,7 +19,6 @@ class CustomUser(AbstractUser):
     )
     first_name = models.CharField('Имя', max_length=150)
     last_name = models.CharField('Фамилия', max_length=150)
-    bio = models.TextField('Описание', max_length=500, blank=True)
     is_courier = models.BooleanField(default=False)
     is_client = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -30,6 +29,7 @@ class CustomUser(AbstractUser):
         verbose_name='Номер телефона',
         help_text='+7'
     )
+    birthday = models.DateField(null=True, blank=True)
 
     class Meta:
         ordering = ('username',)
@@ -38,3 +38,7 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    def age(self):
+        import datetime
+        return int((datetime.date.today() - self.birthday).days / 365.25)

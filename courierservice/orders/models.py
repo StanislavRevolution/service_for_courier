@@ -39,6 +39,13 @@ class CourierProfile(models.Model):
         upload_to='photo_of_couriers/',
         verbose_name='Изображения'
     )
+    bio = models.TextField('Описание', max_length=500, blank=True)
+    success_orders = models.PositiveIntegerField(
+        'Выполненные заказы',
+        blank=True,
+        null=True,
+        default=0
+    )
 
     class Meta:
         verbose_name = 'Профиль курьера'
@@ -194,7 +201,7 @@ class Reviews(models.Model):
     )
 
     def __str__(self):
-        return f'Отзывы на: {self.courier.user.name}'
+        return f'Отзывы на: {self.courier.user}'
 
     class Meta:
         verbose_name = "Отзыв"

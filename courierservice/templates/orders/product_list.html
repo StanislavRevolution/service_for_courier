@@ -46,9 +46,9 @@
 {#                                            <option value="{{ count }}">{{ count }}</option>#}
 {#                                        {% endfor %}#}
 {#                                    </select>#}
-                                    <select class="form-select" aria-label="Default select example">
-                                    {{ cart_product_form }}
-                                    </select>
+{#                                    <select class="form-select" aria-label="Default select example">#}
+                                    {{ cart_product_form.quantity }}
+{#                                    </select>#}
                                 </div>
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-secondary">Добавить в корзину</button>
