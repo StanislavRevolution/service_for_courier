@@ -2,11 +2,11 @@
 {#<header>#}
 {#    <nav class="navbar navbar-expand-md navbar-light" style="background-color: #FFA500">#}
 {#        <div class="container">#}
-<a class="navbar-brand" href="{% url 'orders:index' %}">
-    <img src="{% static 'images/logo.png' %}" width="30" height="30" class="d-inline-block align-top"
-         alt="">
-    <span style="color:lawngreen">Courier</span>Site
-</a>
+{#<a class="navbar-brand" href="{% url 'orders:index' %}">#}
+{#    <img src="{% static 'images/logo.png' %}" width="30" height="30" class="d-inline-block align-top"#}
+{#         alt="">#}
+{#    <span style="color:lawngreen">Courier</span>Site#}
+{#</a>#}
 {#            {% with request.resolver_match.view_name as view_name %}#}
 {#                <ul class="nav nav-pills">#}
 {#                    <li class="nav-item">#}
@@ -77,9 +77,15 @@
                     {#                    <li class="nav-item active">#}
                     {#                        <a class="nav-link" href="#">Корзина</a>#}
                     {#                    </li>#}
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item" style="background: #171616">
+                        Добро пожаловать {{ request.user.username }}
+                    </li>
+                    {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'users:login' %}">Войти</a>
                     </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'orders:product_list' %}">Продукты</a>
                     </li>

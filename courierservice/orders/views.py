@@ -37,9 +37,9 @@ def success_view(request):
 
 
 @login_required()
-def add_comment(request, id):
+def add_comment(request, pk):
     if request.method == 'POST':
-        current_courier = get_object_or_404(CourierProfile, id=id)
+        current_courier = get_object_or_404(CourierProfile, pk=pk)
         # A comment was posted
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
@@ -50,7 +50,7 @@ def add_comment(request, id):
             new_comment.user = request.user
             # Save the comment to the database
             new_comment.save()
-        return redirect('orders:courier_profile',)
+        return redirect('orders:courier_profile', pk=pk)
 
 
 def index(request):
@@ -60,7 +60,7 @@ def index(request):
         'products': products,
         'couriers': couriers
     }
-    return render(request, "orders/index2.html", context)
+    return render(request, "orders/index.html", context)
 
 
 def new_order(request):
