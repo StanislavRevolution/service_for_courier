@@ -60,7 +60,7 @@ def index(request):
         'products': products,
         'couriers': couriers
     }
-    return render(request, "orders/index.html", context)
+    return render(request, "orders/index2.html", context)
 
 
 def new_order(request):
