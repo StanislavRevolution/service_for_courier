@@ -2,11 +2,11 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods, require_POST
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, DetailView
 from django.contrib.auth import get_user_model, login
 from django.urls import reverse_lazy
 
-from .forms import CourierForm, OrderForm
+from .forms import CourierForm, OrderForm, CommentForm
 from users.forms import CourierSignUpForm
 from .models import CourierProfile, Product, OrderItem, Order
 from .utils import try_to_send_mail
@@ -36,10 +36,29 @@ def success_view(request):
     return HttpResponse('Приняли! Спасибо за вашу заявку.')
 
 
+@login_required()
+def add_comment(request, id):
+    if request.method == 'POST':
+        current_courier = get_object_or_404(CourierProfile, id=id)
+        # A comment was posted
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            # Create Comment object but don't save to database yet
+            new_comment = comment_form.save(commit=False)
+            # Assign the current post to the comment
+            new_comment.courier = current_courier
+            new_comment.user = request.user
+            # Save the comment to the database
+            new_comment.save()
+        return redirect('orders:courier_profile',)
+
+
 def index(request):
     products = Product.objects.all()
+    couriers = CourierProfile.objects.all()
     context = {
-        'products': products
+        'products': products,
+        'couriers': couriers
     }
     return render(request, "orders/index.html", context)
 
@@ -115,3 +134,14 @@ class OrdersListView(ListView):
     model = Order
     template_name = 'orders/order_list.html'
 
+
+class CourierDetailView(DetailView):
+    model = CourierProfile
+    template_name = 'orders/courier_profile.html'
+    context_object_name = 'courier'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        comment_form = CommentForm()
+        context['comment_form'] = comment_form
+        return context
