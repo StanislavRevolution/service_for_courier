@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Главная страница
+{% endblock %}
+{% block header %}
+{% endblock %}
+{% block content %}
+    <center><h3>Мои заказы</h3></center>
+    {% for order in orders_of_user %}
+        <div class="card mt-5 border-5 pt-2 active pb-0 px-3">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-12 ">
+                        <h4 class="card-title ">Статус заказа: <strong>
+                            {% if order.status == 'WS' %}
+                                Заказ собирается
+                            {% endif %}
+                        </strong></h4>
+                    </div>
+                    <div class="col">
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            <p class="card-text text-muted small ">
+                                Адрес доставки: <span class="font-weight-bold">{{ order.address }}</span>
+                            </p>
+                            <strong>Список продуктов:</strong>
+                            <br>
+                            {% for product in order.items.all %}
+                                {{ product.product.name }}
+                                <br>
+                            {% endfor %}
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-white px-0 ">
+                <div class="row">
+                    <div class=" col-md-auto ">
+                        <a href="#" class="btn btn-outlined btn-black text-muted bg-transparent"
+                           data-wow-delay="0.7s"><img src="https://img.icons8.com/ios/50/000000/settings.png"
+                                                      width="19" height="19"> <small>Отменить заказ</small></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

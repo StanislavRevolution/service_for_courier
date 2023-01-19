@@ -38,29 +38,26 @@ def success_view(request):
 
 @login_required()
 def add_comment(request, pk):
-    if request.method == 'POST':
-        current_courier = get_object_or_404(CourierProfile, pk=pk)
-        # A comment was posted
-        comment_form = CommentForm(data=request.POST)
-        if comment_form.is_valid():
-            # Create Comment object but don't save to database yet
-            new_comment = comment_form.save(commit=False)
-            # Assign the current post to the comment
-            new_comment.courier = current_courier
-            new_comment.user = request.user
-            # Save the comment to the database
-            new_comment.save()
-        return redirect('orders:courier_profile', pk=pk)
+    current_courier = get_object_or_404(CourierProfile, pk=pk)
+    comment_form = CommentForm(data=request.POST)
+    if comment_form.is_valid():
+        new_comment = comment_form.save(commit=False)
+        new_comment.courier = current_courier
+        new_comment.user = request.user
+        new_comment.save()
+    return redirect('orders:courier_profile', pk=pk)
 
 
 def index(request):
-    products = Product.objects.all()
+    products = Product.objects.all()[:3]
     couriers = CourierProfile.objects.all()
+    form = CourierForm()
     context = {
         'products': products,
-        'couriers': couriers
+        'couriers': couriers,
+        'form': form
     }
-    return render(request, "orders/index.html", context)
+    return render(request, "orders/index4.html", context)
 
 
 def new_order(request):
@@ -145,3 +142,13 @@ class CourierDetailView(DetailView):
         comment_form = CommentForm()
         context['comment_form'] = comment_form
         return context
+
+
+def order_of_clients(request, id):
+    user = get_object_or_404(User, id=id)
+    orders_of_user = user.all_orders.all().order_by('-pk')
+    return render(
+        request,
+        'orders/user_orders.html',
+        {'orders_of_user': orders_of_user}
+    )

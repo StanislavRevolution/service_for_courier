@@ -5,10 +5,12 @@
 {% endblock %}
 {% block content %}
     <link rel="stylesheet" href="{% static 'css/product_list.css' %}">
+
     <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative;">
-        <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
-            <div class="col">
+
+            <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
                 {% for product in products %}
+                <div class="col">
                     <div class="card h-100 shadow-sm"><img
                             src="{{ product.image.url }}"
                             class="card-img-top" alt="...">
@@ -26,8 +28,9 @@
                             </form>
                         </div>
                     </div>
+                </div>
                 {% endfor %}
             </div>
-        </div>
+
     </div>
-{% endblock %}
+{% endblock content %}

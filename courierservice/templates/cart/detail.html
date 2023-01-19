@@ -1,43 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-{#{% block content %}#}
-{#    <h1>Ваша корзина покупок</h1>#}
-{#    <table class="cart">#}
-{#        <thead>#}
-{#        <tr>#}
-{#            <th>Продукт</th>#}
-{#            <th>Количество</th>#}
-{#            <th>Удаление</th>#}
-{#            <th>Цена со скидкой</th>#}
-{#            <th>Цена без скидки</th>#}
-{#        </tr>#}
-{#        </thead>#}
-{#        <tbody>#}
-{#{% for item in cart %}#}
-{#    {% with product=item.product %}#}
-{#        <tr>#}
-{#            <td>{{ product.name }}</td>#}
-{#            <td>{{ item.quantity }}</td>#}
-{#            <td><a href="{% url "cart:cart_remove" product.id %}">Удалить</a></td>#}
-{#            <td class="num">{{ item.price }}₽</td>#}
-{#            <td class="num">{{ item.total_price }}₽</td>#}
-{#        </tr>#}
-{#    {% endwith %}#}
-{#{% endfor %}#}
-{#<tr class="total">#}
-{#    <td>Общая сумма:</td>#}
-{#    <td colspan="4"></td>#}
-{#    <td class="num">{{ cart.get_total_price }}₽</td>#}
-{#</tr>#}
-{#</tbody>#}
-{#</table>#}
-{#<p class="text-right">#}
-{#    <a href="{% url "orders:product_list" %}" class="button light">Продолжить покупки</a>#}
-{#    <a href="{% url "orders:new_order" %}" class="button">#}
-{#        Оформить заказ#}
-{#    </a>#}
-{#</p>#}
-{#{% endblock %}#}
 {% block content %}
     <link rel="stylesheet" href="{% static 'css/cart_detail.css' %}">
     <div class="container mt-5 mb-5">
@@ -62,7 +24,6 @@
                             </div>
                             <h5 class="text-grey">{{ item.total_price }}₽</h5>
                             <h5 class="text-grey">
-{#                                <a href="{% url "cart:cart_remove" product.id %}">❌</a>#}
                                 <a href="{% url "cart:cart_remove" product.id %}"
                                    class="btn btn-outline-light" role="button"
                                    aria-pressed="true">❌

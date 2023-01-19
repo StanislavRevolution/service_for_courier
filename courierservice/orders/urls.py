@@ -11,6 +11,7 @@ urlpatterns = [
          name='courier_profile'),
     path('courier_profile/<int:pk>/comment/', views.add_comment,
          name='add_comment'),
+    path('my_orders/<int:id>', views.order_of_clients, name='user_orders'),
     path('courier_form/', views.contact_view, name='contact_view'),
     path('courier_form/success/', views.success_view, name='success'),
     path('new_order/', views.new_order, name='new_order'),
