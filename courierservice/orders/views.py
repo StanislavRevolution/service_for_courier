@@ -152,3 +152,13 @@ def order_of_clients(request, id):
         'orders/user_orders.html',
         {'orders_of_user': orders_of_user}
     )
+
+
+def own_profile(request):
+    author = get_object_or_404(User, pk=request.user.pk)
+    form = CourierForm(request.POST or None)
+
+    context = {
+        'author': author,
+    }
+    return render(request, 'orders/own_profile.html', context)
