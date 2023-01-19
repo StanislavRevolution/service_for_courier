@@ -7,42 +7,6 @@
 {% block header %}
 {% endblock %}
 {% block content %}
-    {#    <h1>Оформление доставки</h1>#}
-    {#    <div class="order-info">#}
-    {#        <h3>Ваш заказ</h3>#}
-    {#        <ul>#}
-    {#            {% for item in cart %}#}
-    {#                <li>#}
-    {#                    {{ item.quantity }}x {{ item.product.name }}#}
-    {#                    <span>{{ item.total_price }}₽</span>#}
-    {#                </li>#}
-    {#            {% endfor %}#}
-    {#        </ul>#}
-    {#        <p>Сумма заказа: {{ cart.get_total_price }}₽</p>#}
-    {#    </div>#}
-    {#    <form action="." method="post" class="order-form">#}
-    {#        {% for field in form %}#}
-    {#            <div class="form-group row my-3">#}
-    {#                <label for="{{ field.id_for_label }}">#}
-    {#                    {{ field.label }}#}
-    {#                    {% if field.field.required %}#}
-    {#                        <span class="required text-danger">*</span>#}
-    {#                    {% endif %}#}
-    {#                </label>#}
-    {#                {{ field|addclass:'form-control' }}#}
-    {#                {% if field.help_text %}#}
-    {#                    <small#}
-    {#                            id="{{ field.id_for_label }}-help"#}
-    {#                            class="form-text text-muted"#}
-    {#                    >#}
-    {#                        {{ field.help_text|safe }}#}
-    {#                    </small>#}
-    {#                {% endif %}#}
-    {#            </div>#}
-    {#        {% endfor %}#}
-    {#        <p><input type="submit" value="Сделать заказ"></p>#}
-    {#        {% csrf_token %}#}
-    {#    </form>#}
     <link rel="stylesheet" href="{% static 'css/new_order.css' %}">
     <section class="order-form m-4">
         <div class="container pt-4">

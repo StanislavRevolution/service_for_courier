@@ -103,7 +103,8 @@ class Order(models.Model):
     client = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name='Заказчик'
+        verbose_name='Заказчик',
+        related_name='all_orders'
     )
     pub_date = models.DateTimeField(
         'Время публикации',

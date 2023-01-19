@@ -1,11 +1,4 @@
 /*
-LINKS:
-Typetura docs: https://docs.typetura.com/creating-with-typetura/creating-your-own-typographic-system
-Cubic Bezier: https://cubic-bezier.com/
-Fraunces: https://fraunces.undercase.xyz/
-Google variable fonts: https://css-tricks.com/getting-the-most-out-of-variable-fonts-on-google-fonts/
-Grid system: https://gist.github.com/scottkellum/bb46ea68c23e630842ee80c37513a3e6
-*/
 
 /* Import our variable font Fraunces */
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,0..100,0..1&family=Fraunces:ital,opsz,wght,SOFT,WONK@1,9..144,100..900,0..100,0..1&display=swap");

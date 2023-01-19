@@ -1,37 +1,37 @@
 /*****************
     - Header -
 *****************/
-header {
-    position: relative;
-    left: 0;
-    top: 0;
-    width: 100%;
-    min-height: 120px;
-    padding: 50px 0;
-    color: #fff;
-    background: #383838 url(https://www.athenadesignstudio.com/plugins/switch/images/bg.jpg) no-repeat center center;
-    margin-bottom: 30px
-}
+/*header {*/
+/*    position: relative;*/
+/*    left: 0;*/
+/*    top: 0;*/
+/*    width: 100%;*/
+/*    min-height: 120px;*/
+/*    padding: 50px 0;*/
+/*    color: #fff;*/
+/*    background: #383838 url(https://www.athenadesignstudio.com/plugins/switch/images/bg.jpg) no-repeat center center;*/
+/*    margin-bottom: 30px*/
+/*}*/
 
-/* Logo */
-header .logo {
-    clear: both;
-    display: block;
-    text-align: center;
-    padding-bottom: 10px;
-}
+/*!* Logo *!*/
+/*header .logo {*/
+/*    clear: both;*/
+/*    display: block;*/
+/*    text-align: center;*/
+/*    padding-bottom: 10px;*/
+/*}*/
 
-/* Title */
-header h1 {
-    font-weight: 300;
-    font-size: 24px;
-    color: #eee;
-    letter-spacing: 2px;
-    text-align: center;
-    text-transform: uppercase;
-    margin: 0 !important;
-    padding-bottom: 25px;
-}
+/*!* Title *!*/
+/*header h1 {*/
+/*    font-weight: 300;*/
+/*    font-size: 24px;*/
+/*    color: #eee;*/
+/*    letter-spacing: 2px;*/
+/*    text-align: center;*/
+/*    text-transform: uppercase;*/
+/*    margin: 0 !important;*/
+/*    padding-bottom: 25px;*/
+/*}*/
 
 
 @charset "utf-8";
@@ -74,7 +74,7 @@ body {
 .profile-card-1 {
     background-color: #FFF;
     border-radius: 10px;
-    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 25px rgba(255, 244, 244, 0.1);
     background-image: url(../img/profile-bg-1.jpg);
     background-position: center;
     padding-top: 100px;
@@ -135,7 +135,7 @@ body {
 }
 
 .profile-card-1:hover {
-    box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 50px rgba(54, 1, 1, 0.1);
 }
 
 .profile-card-1:hover .profile-img {

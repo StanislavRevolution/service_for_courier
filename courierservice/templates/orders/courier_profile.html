@@ -99,85 +99,24 @@
                     </div>
                 </div>
             {% endfor %}
-            <div class="card my-4">
-                <h5 class="card-header">Добавить комментарий:</h5>
-                <div class="card-body">
-                    <form method="post" action="{% url 'orders:add_comment' courier.pk %}">
-                        {% csrf_token %}
-                        <div class="form-group mb-2">
-                            {#                            {{ form.text|addclass:"form-control" }}#}
-                            {{ comment_form.as_p }}
-                        </div>
-                        <button type="submit" class="btn btn-primary">Отправить</button>
-                    </form>
+            {% if request.user.is_authenticated %}
+                <div class="card my-4">
+                    <h5 class="card-header">Добавить комментарий:</h5>
+                    <div class="card-body">
+                        <form method="post" action="{% url 'orders:add_comment' courier.pk %}">
+                            {% csrf_token %}
+                            <div class="form-group mb-2">
+                                {{ comment_form.text }}
+                            </div>
+                            <button type="submit" class="btn btn-secondary">Отправить</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            {#            {{ comment_form.as_p }}#}
-            {#            <form method="post" action="{% url 'orders:add_comment' courier.pk %}">#}
-            {#                {% csrf_token %}#}
-            {#            <section style="background-color: #eee;">#}
-            {#                <div class="container my-5 py-5">#}
-            {#                    <div class="row d-flex justify-content-center">#}
-            {#                        <div class="col-md-12 col-lg-10 col-xl-8">#}
-            {#                            <div class="card">#}
-            {#                                <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">#}
-            {#                                    <div class="d-flex flex-start w-100">#}
-            {#                                        <img class="rounded-circle shadow-1-strong me-3"#}
-            {#                                             src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp"#}
-            {#                                             alt="avatar" width="40"#}
-            {#                                             height="40"/>#}
-            {#                                        <div class="form-outline w-100">#}
-            {#                                            {% for field in form %}#}
-            {#                                                <div class="form-group position-relative">#}
-            {#                                                    <label for="{{ field.id_for_label }}">#}
-            {#                                                        {{ field.label }}#}
-            {#                                                        {% if field.field.required %}#}
-            {#                                                            <span class="required text-danger">*</span>#}
-            {#                                                        {% endif %}#}
-            {#                                                    </label>#}
-            {#                                                        К полю ввода добавляем атрибут class#}
-            {#                                                    {{ field|addclass:'form-control' }}#}
-            {#                                                {% if field.help_text %}#}
-            {#                                                    <small#}
-            {#                                                            id="{{ field.id_for_label }}-help"#}
-            {#                                                            class="form-text text-muted"#}
-            {#                                                    >#}
-            {#                                                        {{ field.help_text|safe }}#}
-            {#                                                    </small>#}
-            {#                                                {% endif %}#}
-            {#                                                </div>#}
-            {#                                            {% endfor %}#}
-            {#                                                {{ comment_form.text }}#}
-            {#                                            <form method="post" action="{% url 'orders:add_comment' courier.pk %}">#}
-            {#                                                {% csrf_token %}#}
-            {#                                                <div class="form-group mb-2">#}
-            {#                                                <textarea class="form-control" id="textAreaExample" rows="4"#}
-            {#                                                          style="background: #fff;">#}
-            {#                                                        </textarea>#}
-            {#                                                </div>#}
-            {##}
-            {#                                                <label class="form-label" for="textAreaExample">Message</label>#}
-            {#                                                <div class="float-end mt-2 pt-1">#}
-            {##}
-            {#                                                    <button type="submit" class="btn btn-primary btn-sm">Post comment#}
-            {#                                                    </button>#}
-            {#                                                    <button type="submit" class="btn btn-outline-primary btn-sm">Cancel#}
-            {#                                                    </button>#}
-            {##}
-            {#                                                </div>#}
-            {#                                            </form>#}
-            {#                                        </div>#}
-            {#                                    </div>#}
-            {##}
-            {##}
-            {#                                </div>#}
-            {#                            </div>#}
-            {#                        </div>#}
-            {#                    </div>#}
-            {#                </div>#}
-            {#            </section>#}
-            {#            </form>#}
-
+            {% else %}
+                <div class="card my-4">
+                    <h5 class="card-header">Авторизуйтесь, чтобы оставлять комментарии</h5>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
