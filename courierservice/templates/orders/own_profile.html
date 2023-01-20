@@ -106,7 +106,32 @@
                             </div>
                         </div>
                     </div>
-                    <h3><center>Последние выполненные заказы</center></h3>
+                    <h3>
+                        <center><font color="red">Активный заказ</font></center>
+                    </h3>
+                    <div class="row gutters-sm">
+                        {% for order in last_orders_by_courier %}
+                            {% if order.status == 'GT' %}
+                                <div class="col-sm-6 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="d-flex align-items-center mb-3">Ключ заказа: {{ order.id }}</h6>
+                                            <form action="{% url 'orders:change_status' order.client.id %}" method="post">{% csrf_token %}
+                                                {{ form.as_p }}
+                                                <small>Адрес заказа: </small>
+                                                {{ order.address }}
+                                                <br>
+                                                <input type="submit" value="Подтвердить"/>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <h3>
+                        <center>Последние выполненные заказы</center>
+                    </h3>
                     <br>
                     <div class="row gutters-sm">
                         {% for order in last_orders_by_courier %}

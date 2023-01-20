@@ -6,7 +6,7 @@ from django.views.generic import CreateView, ListView, DetailView, UpdateView
 from django.contrib.auth import get_user_model, login
 from django.urls import reverse_lazy
 
-from .forms import CourierForm, OrderForm, CommentForm
+from .forms import CourierForm, OrderForm, CommentForm, StatusForm
 from users.forms import CourierSignUpForm, UserSignUpForm
 from .models import CourierProfile, Product, OrderItem, Order
 from .utils import try_to_send_mail
@@ -136,6 +136,7 @@ class CourierUpdateView(UpdateView):
     model = User
     template_name = 'authorization/signup_couriers_form.html'
     fields = ('username', 'email', 'phoneNumber', 'first_name', 'last_name')
+
     # form_class = UserSignUpForm
 
     def get_context_data(self, **kwargs):
@@ -169,10 +170,25 @@ def order_of_clients(request, id):
 def own_profile(request, id):
     author = get_object_or_404(CourierProfile, pk=id)
     last_orders_by_courier = author.orders.order_by('-pk')[:2]
-    form = CourierForm(request.POST or None)
-
+    form = StatusForm()
     context = {
         'author': author,
-        'last_orders_by_courier': last_orders_by_courier
+        'last_orders_by_courier': last_orders_by_courier,
+        'form': form
     }
     return render(request, 'orders/own_profile.html', context)
+
+
+def change_status_order(request, order_id):
+    print(1)
+    order = get_object_or_404(Order, id=order_id)
+    print(2)
+    if request.method == 'POST':
+        print(3)
+        form = StatusForm(request.POST)
+        if form.is_valid():
+            order1 = form.save(commit=False)
+            order.status = form.cleaned_data['status']
+            order1.save()
+            return redirect('orders:index')
+    return redirect('orders:index')

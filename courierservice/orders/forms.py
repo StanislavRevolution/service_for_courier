@@ -30,3 +30,9 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Reviews
         fields = ('text', )
+
+
+class StatusForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ('status', )
