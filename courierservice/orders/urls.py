@@ -18,6 +18,8 @@ urlpatterns = [
     path('orders_list/<int:order_id>/accept/', views.accept_order,
          name='accept_order'),
     path('orders_list/', views.OrdersListView.as_view(), name='order_list'),
-    path('own_profile/<int:id>/', views.own_profile, name='own_profile')
+    path('own_profile/change_status/<int:id>/', views.own_profile, name='change_status'),
+    path('own_profile/<int:id>/', views.own_profile, name='own_profile'),
+
 
 ]
