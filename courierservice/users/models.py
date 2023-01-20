@@ -39,6 +39,9 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
+    def get_absolute_url(self):
+        return f'/own_profile/{self.id}/'
+
     def age(self):
         import datetime
         return int((datetime.date.today() - self.birthday).days / 365.25)

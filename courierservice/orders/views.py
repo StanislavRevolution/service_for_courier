@@ -2,12 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods, require_POST
-from django.views.generic import CreateView, ListView, DetailView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView
 from django.contrib.auth import get_user_model, login
 from django.urls import reverse_lazy
 
 from .forms import CourierForm, OrderForm, CommentForm
-from users.forms import CourierSignUpForm
+from users.forms import CourierSignUpForm, UserSignUpForm
 from .models import CourierProfile, Product, OrderItem, Order
 from .utils import try_to_send_mail
 from cart.forms import CartAddProductForm
@@ -132,6 +132,18 @@ class OrdersListView(ListView):
     template_name = 'orders/order_list.html'
 
 
+class CourierUpdateView(UpdateView):
+    model = User
+    template_name = 'authorization/signup_couriers_form.html'
+    fields = ('username', 'email', 'phoneNumber', 'first_name', 'last_name')
+    # form_class = UserSignUpForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_edit'] = True
+        return context
+
+
 class CourierDetailView(DetailView):
     model = CourierProfile
     template_name = 'orders/courier_profile.html'
@@ -156,7 +168,7 @@ def order_of_clients(request, id):
 
 def own_profile(request, id):
     author = get_object_or_404(CourierProfile, pk=id)
-    last_orders_by_courier = author.orders.all().order_by('-pk')[:2]
+    last_orders_by_courier = author.orders.order_by('-pk')[:2]
     form = CourierForm(request.POST or None)
 
     context = {
