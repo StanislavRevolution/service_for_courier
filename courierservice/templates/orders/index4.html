@@ -80,10 +80,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'orders:product_list' %}">Продукты</a>
                     </li>
-                    {% if request.user.is_authenticated %}
+                    {% if request.user.is_authenticated and request.user.is_courier %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'orders:own_profile' %}">Профиль</a>
+                            <a class="nav-link" href="{% url 'orders:own_profile' request.user.pk %}">Профиль</a>
                         </li>
+                    {% endif %}
+                    {% if request.user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'orders:user_orders' request.user.id %}">Мои заказы</a>
                         </li>
