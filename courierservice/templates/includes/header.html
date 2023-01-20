@@ -19,21 +19,23 @@
                             <a class="nav-link" href="{% url 'users:login' %}">Войти</a>
                         </li>
                     {% endif %}
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link">Пользователь: {{ request.user.username }}</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'orders:product_list' %}">Продукты</a>
                     </li>
                     {% if request.user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link">Добро пожаловать {{ request.user.username }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'users:logout' %}">Выйти</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'orders:own_profile' %}">Профиль</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'orders:user_orders' request.user.id %}">Мои заказы</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'users:logout' %}">Выйти</a>
                         </li>
                     {% endif %}
                     <li class="nav-item">
