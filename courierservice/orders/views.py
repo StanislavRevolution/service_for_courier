@@ -179,16 +179,8 @@ def own_profile(request, id):
     return render(request, 'orders/own_profile.html', context)
 
 
-def change_status_order(request, order_id):
-    print(1)
-    order = get_object_or_404(Order, id=order_id)
-    print(2)
-    if request.method == 'POST':
-        print(3)
-        form = StatusForm(request.POST)
-        if form.is_valid():
-            order1 = form.save(commit=False)
-            order.status = form.cleaned_data['status']
-            order1.save()
-            return redirect('orders:index')
-    return redirect('orders:index')
+class UpdateStatusOrderView(UpdateView):
+    model = Order
+    form_class = StatusForm
+    template_name = 'orders/own_profile.html'
+    success_url = '/'
