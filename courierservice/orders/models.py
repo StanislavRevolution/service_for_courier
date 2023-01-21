@@ -130,6 +130,9 @@ class Order(models.Model):
     def __str__(self):
         return f'Order {self.id} of {self.client.username}'
 
+    def get_absolute_url(self):
+        return f'/own_profile/{self.orders_of_current_courier.user.id}/'
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(

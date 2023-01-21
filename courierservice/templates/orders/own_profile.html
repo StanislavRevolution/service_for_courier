@@ -111,15 +111,36 @@
                     </h3>
                     <div class="row gutters-sm">
                         {% for order in last_orders_by_courier %}
-                            {% if order.status == 'GT' %}
+                            {% if order.status == 'GT' or order.status == 'OTW' %}
                                 <div class="col-sm-6 mb-3">
                                     <div class="card h-100">
                                         <div class="card-body">
                                             <h6 class="d-flex align-items-center mb-3">Ключ заказа: {{ order.id }}</h6>
-                                            <form action="{% url 'orders:change_status' order.client.id %}" method="post">{% csrf_token %}
-                                                {{ form.as_p }}
+                                            <form action="{% url 'orders:change_status' order.id %}"
+                                                  method="post">{% csrf_token %}
+                                                {% for field in form %}
+                                                    <div class="form-group position-relative">
+                                                        <label for="{{ field.id_for_label }}">
+                                                            {{ field.label }}
+                                                            {% if field.field.required %}
+                                                                <span class="required text-danger">*</span>
+                                                            {% endif %}
+                                                        </label>
+                                                        {# К полю ввода добавляем атрибут class #}
+                                                        {{ field|addclass:'form-control' }}
+                                                        {% if field.help_text %}
+                                                            <small
+                                                                    id="{{ field.id_for_label }}-help"
+                                                                    class="form-text text-muted"
+                                                            >
+                                                                {{ field.help_text|safe }}
+                                                            </small>
+                                                        {% endif %}
+                                                    </div>
+                                                {% endfor %}
                                                 <small>Адрес заказа: </small>
-                                                {{ order.address }}
+                                                {{ order.address }}<br>
+                                                Действующий статус: {{ order.status }}
                                                 <br>
                                                 <input type="submit" value="Подтвердить"/>
                                             </form>

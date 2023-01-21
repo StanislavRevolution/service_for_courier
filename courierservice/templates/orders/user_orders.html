@@ -14,7 +14,13 @@
                     <div class="col-12 ">
                         <h4 class="card-title ">Статус заказа: <strong>
                             {% if order.status == 'WS' %}
+                                Ожидает подтверждения
+                            {% elif order.status == 'GT' %}
                                 Заказ собирается
+                            {% elif order.status == 'OTW' %}
+                                Заказ находиться в пути
+                            {% elif order.status == 'DV' %}
+                                Доставлено
                             {% endif %}
                         </strong></h4>
                     </div>
